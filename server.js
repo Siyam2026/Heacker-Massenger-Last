@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 // Routes
 import authRoutes from './backend/routes/auth.js';
 import userRoutes from './backend/routes/user.js';
-import chatRoutes from '/chat.js';
+import chatRoutes from 'chat.js';
 import groupRoutes from './backend/routes/group.js';
 
 // Socket Handler
