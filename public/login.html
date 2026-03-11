@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Hacker Messenger</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-black text-green-500 font-mono flex items-center justify-center h-screen p-4">
+    <div class="w-full max-w-md border border-green-500 p-8 bg-black/80 backdrop-blur-sm">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold neon-text tracking-tighter">HACKER_MSG</h1>
+            <p class="text-xs opacity-50 mt-2">SECURE_ACCESS_PROTOCOL</p>
+        </div>
+
+        <form id="login-form" class="space-y-6">
+            <div>
+                <label class="block text-xs uppercase mb-2">IDENTIFIER</label>
+                <input type="text" id="username" required class="w-full bg-black border border-green-900 p-3 text-green-500 focus:border-green-500 outline-none transition-all" placeholder="USERNAME">
+            </div>
+            <div>
+                <label class="block text-xs uppercase mb-2">ACCESS_KEY</label>
+                <input type="password" id="password" required class="w-full bg-black border border-green-900 p-3 text-green-500 focus:border-green-500 outline-none transition-all" placeholder="PASSWORD">
+                <p id="error-msg" class="text-red-500 text-[10px] mt-2 hidden">AUTHENTICATION_FAILED: INVALID_CREDENTIALS</p>
+            </div>
+            <button type="submit" class="w-full bg-green-500 text-black font-bold p-3 hover:bg-green-400 transition-all transform active:scale-95">LOGIN</button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="/register.html" class="text-xs hover:underline opacity-70">NEW_NODE? REGISTER_HERE</a>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const errorMsg = document.getElementById('error-msg');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.href = '/';
+                } else {
+                    errorMsg.textContent = data.message || 'AUTHENTICATION_FAILED';
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.textContent = 'CONNECTION_ERROR';
+                errorMsg.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "Hacker Messenger",
+  "description": "A real-time, hacker-themed messenger with audio calls, group chats, and offline support.",
+  "requestFramePermissions": ["microphone"]
+}
